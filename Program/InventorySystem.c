@@ -3,20 +3,21 @@
 
 #define MAX_ITEMS 100 // Maximum inventory size
 
+// Creating a structure of an item, and defining it with Item
 typedef struct {
     char name[50];
     float price;
     int quantity;
 } Item;
 
-Item inventory[MAX_ITEMS];
-int itemCount = 0;
+Item inventory[MAX_ITEMS]; // Creating array to hold items
+int itemCount = 0; // Variable to hold amount of items in inventory
 
-void addItem() {
-    if (itemCount < MAX_ITEMS) {
+void addItem() { // Function to create item and add to inventory
+    if (itemCount < MAX_ITEMS) { // Making sure inventory is not full
         printf("Enter item name: ");
         getchar();  // Clear newline left in buffer
-        fgets(inventory[itemCount].name, sizeof(inventory[itemCount].name), stdin);
+        fgets(inventory[itemCount].name, sizeof(inventory[itemCount].name), stdin); // Takes input from user allowing spaces be allowed
 
         printf("Enter item price: ");
         scanf("%f", &inventory[itemCount].price);
