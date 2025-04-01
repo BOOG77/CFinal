@@ -1,4 +1,35 @@
 #include <stdio.h>
+#include <string.h>
+
+#define MAX_ITEMS 100 // Maximum inventory size
+
+typedef struct {
+    char name[50];
+    float price;
+    int quantity;
+} Item;
+
+Item inventory[MAX_ITEMS];
+int itemCount = 0;
+
+void addItem() {
+    if (itemCount < MAX_ITEMS) {
+        printf("Enter item name: ");
+        getchar();  // Clear newline left in buffer
+        fgets(inventory[itemCount].name, sizeof(inventory[itemCount].name), stdin);
+
+        printf("Enter item price: ");
+        scanf("%f", &inventory[itemCount].price);
+
+        printf("Enter item quantity: ");
+        scanf("%d", &inventory[itemCount].quantity);
+
+        itemCount++;
+        printf("Item(s) added successfully!\n");
+    } else {
+        printf("Inventory full! Cannot add any more items!\n");
+    }
+}
 
 int input;
 
@@ -20,7 +51,7 @@ void displayMenu() {
 
     switch (input) {
 case 1:
-    printf("Adding item\n");
+    addItem();
     puts("\n");
     break;
 case 2:
