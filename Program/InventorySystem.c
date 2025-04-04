@@ -15,6 +15,7 @@ int itemCount = 0; // Variable to hold amount of items in inventory
 
 void addItem() { // Function to create item and add to inventory
     if (itemCount < MAX_ITEMS) { // Making sure inventory is not full
+            printf("\033[H\033[J");
         printf("Enter item name: ");
         getchar();  // Clear newline left in buffer
         fgets(inventory[itemCount].name, sizeof(inventory[itemCount].name), stdin); // Takes input from user allowing spaces be allowed
@@ -26,9 +27,28 @@ void addItem() { // Function to create item and add to inventory
         scanf("%d", &inventory[itemCount].quantity);
 
         itemCount++;
+        printf("\033[H\033[J");
         printf("Item(s) added successfully!\n");
     } else {
         printf("Inventory full! Cannot add any more items!\n");
+    }
+}
+
+void displayInventory() {
+if (itemCount == 0) {
+        printf("\033[H\033[J");
+    printf("Inventory is empty! Nothing to display!\n");
+    return;
+    }
+    printf("\033[H\033[J");
+    printf("\n------Inventory------\n");
+
+    for (int i = 0; i < itemCount; i++) {
+        printf("Item %d: \n", i + 1);
+        printf("  Name: %s", inventory[i].name);
+        printf("  Price: %.2f\n", inventory[i].price);
+        printf("  Quantity: %d\n", inventory[i].quantity);
+        printf("--------------------\n");
     }
 }
 
@@ -56,7 +76,7 @@ case 1:
     puts("\n");
     break;
 case 2:
-    printf("Displaying inventory\n");
+    displayInventory();
     puts("\n");
     break;
 case 3:
