@@ -52,7 +52,43 @@ void addItem() { // Function to create item and add to inventory
     }
 }
 
+void saveInventoryToFile() {
+    FILE *file = fopen("inventory.txt", "w");  // Open file in write mode
+
+    if (file == NULL) {
+        printf("Error opening file for inventory save!\n");
+        return;
+    }
+
+    for (int i = 0; i < itemCount; i++) {
+        fprintf(file, "%s|%.2f|%d\n", inventory[i].name, inventory[i].price, inventory[i].quantity);
+    }
+
+    fclose(file);  // Close the file
+    printf("Inventory saved successfully!\n");
+}
+
+
+void loadInventoryFromFile() {
+    FILE *file = fopen("inventory.txt", "r");  // Open file in read mode
+
+    if (file == NULL) {
+        printf("No inventory file found! Starting fresh.\n");
+        return;
+    }
+
+    itemCount = 0;
+    while (fscanf(file, "%49[^|]|%f|%d\n", inventory[itemCount].name,
+                  &inventory[itemCount].price, &inventory[itemCount].quantity) == 3) {
+        itemCount++;
+    }
+
+    fclose(file);
+    printf("Inventory loaded successfully!\n");
+}
+
 void displayInventory() {
+    loadInventoryFromFile();
 if (itemCount == 0) {
     clearScreen();
     printf("Inventory is empty! Nothing to display!\n");
@@ -206,40 +242,6 @@ void calculatePayroll() {
     }
 }
 
-void saveInventoryToFile() {
-    FILE *file = fopen("inventory.txt", "w");  // Open file in write mode
-
-    if (file == NULL) {
-        printf("Error opening file for inventory save!\n");
-        return;
-    }
-
-    for (int i = 0; i < itemCount; i++) {
-        fprintf(file, "%s|%.2f|%d\n", inventory[i].name, inventory[i].price, inventory[i].quantity);
-    }
-
-    fclose(file);  // Close the file
-    printf("Inventory saved successfully!\n");
-}
-
-
-void loadInventoryFromFile() {
-    FILE *file = fopen("inventory.txt", "r");  // Open file in read mode
-
-    if (file == NULL) {
-        printf("No inventory file found! Starting fresh.\n");
-        return;
-    }
-
-    itemCount = 0;
-    while (fscanf(file, "%49[^|]|%f|%d\n", inventory[itemCount].name,
-                  &inventory[itemCount].price, &inventory[itemCount].quantity) == 3) {
-        itemCount++;
-    }
-
-    fclose(file);
-    printf("Inventory loaded successfully!\n");
-}
 
 void loadTransactions() {
     FILE *file = fopen("transactions.txt", "r");  // Open file in read mode
