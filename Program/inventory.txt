@@ -1,0 +1,4 @@
+Blue Jeans
+|19.99|24
+Green Shirt
+|10.99|10
