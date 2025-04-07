@@ -7,6 +7,9 @@
 #define OVERTIME_MULTIPLIER 1.5  // Overtime is 1.5x regular pay
 #define credentials "credentials.txt"
 
+int choice;
+
+
 void clearScreen(){
     printf("\033[H\033[J");
 }
@@ -263,11 +266,52 @@ void loadTransactions() {
 
 int input;
 
-void displayMenu() {
+void displayCustomerMenu() {
     clearScreen();
     do {
     puts("\n");
-    printf("--------Main Menu--------\n");
+    printf("--------Customer Menu--------\n");
+    puts("\n");
+    printf("1. Display Inventory\n");
+    printf("2. Process Sale\n");
+    printf("3. Exit\n");
+    puts("\n");
+    printf("Enter your choice: \n");
+        if (scanf("%d", &input) != 1) {
+            clearScreen();
+            printf("\nInvalid input! Please enter a number between 1 and 3.\n");
+            while (getchar() != '\n');  // Clear input buffer
+            continue;  // Restart loop
+        }
+
+    puts("\n");
+
+    switch (input) {
+case 1:
+    displayInventory();
+    puts("\n");
+    break;
+case 2:
+    processSale();
+    puts("\n");
+    break;
+case 3:
+    printf("Saving and exiting...\n");
+    puts("\n");
+    break;
+default:
+    printf("Invalid input. Please try again\n");
+    puts("\n");
+    }
+} while (input !=3);
+};
+
+
+void displayEmployeeMenu() {
+    clearScreen();
+    do {
+    puts("\n");
+    printf("--------Employee Main Menu--------\n");
     puts("\n");
     printf("1. Add Item\n");
     printf("2. Display Inventory\n");
@@ -351,7 +395,7 @@ void registerUser() {
 
     printf("Enter role (employee or customer): ");
     scanf("%s", role);//takes in the user's role in order to display the different menus
-    if (strcmp(role, "employee") != 0 || strcmp(role, "customer") !=0){//if the role is not equal to employee or customer returns with error
+    if (strcmp(role, "employee") != 0 && strcmp(role, "customer") !=0){//if the role is not equal to employee or customer returns with error
         printf("Invalid role");
         return;
     }
@@ -395,11 +439,11 @@ void loginUser(){
         if(strcmp(fileRole, "customer")==0){
             //customerMenu();
             printf("display customer menu\n");
-            displayMenu();
+            displayCustomerMenu();
         } else if (strcmp(fileRole, "employee")==0){
             //employeeMenu();
             printf("display employee menu\n");
-            displayMenu();
+            displayEmployeeMenu();
         } else {
             printf("Error with role, -- returning to main menu");
             return;
@@ -407,14 +451,8 @@ void loginUser(){
     }
 }
 
-
-int main() {
-    loadInventoryFromFile();
-    //loadTransactions();
-    //displayMenu();
-    int choice;
-
-    while (1) {
+   void mainMenu() {
+   do {
         printf("\n--- Main Menu ---\n");
         printf("1. Register\n");
         printf("2. Login\n");
@@ -435,7 +473,15 @@ int main() {
             default:
                 printf("Invalid option. Try again.\n");
         }
-    }
+    } while (choice !=3);
+}
+
+int main() {
+    loadInventoryFromFile();
+    //loadTransactions();
+    mainMenu();
+    //displayMenu();
+
     saveInventoryToFile();
 
 return 0;
