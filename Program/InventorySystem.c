@@ -2,6 +2,7 @@
 #include <string.h>
 
 #define MAX_ITEMS 100 // Maximum inventory size
+#define MAX_EMPLOYEES 50 // Maximum number of employees
 
 // Creating a structure of an item, and defining it with Item
 typedef struct {
@@ -52,6 +53,39 @@ if (itemCount == 0) {
     }
 }
 
+typedef struct {
+    char name[50];
+    int employeeID;
+    float hoursWorked;
+    float overtime;
+    float salary;
+} Employee;
+
+Employee employees[MAX_EMPLOYEES]; // Array for employees
+int employeeCount = 0;
+
+void addEmployee() {
+    if(employeeCount < MAX_EMPLOYEES) {
+            printf("\033[H\033[J");
+        printf("Enter employee name: ");
+        getchar();
+        fgets(employees[employeeCount].name, sizeof(employees[employeeCount].name), stdin);
+        employees[employeeCount].name[strcspn(employees[employeeCount].name, "\n")] = '\0';
+
+        printf("\nEnter employee ID: ");
+        scanf("%d", &employees[employeeCount].employeeID);
+
+        employees[employeeCount].salary = 0;
+
+        employeeCount++;
+        printf("\033[H\033[J");
+        printf("Employee added successfully!\n");
+    } else {
+        printf("\033[H\033[J");
+        printf("Employee list full!\n");
+    }
+}
+
 int input;
 
 void displayMenu() {
@@ -84,7 +118,7 @@ case 3:
     puts("\n");
     break;
 case 4:
-    printf("Adding employee\n");
+    addEmployee();
     puts("\n");
     break;
 case 5:
