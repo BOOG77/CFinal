@@ -19,13 +19,13 @@ int itemCount = 0; // Variable to hold amount of items in inventory
 
 void addItem() { // Function to create item and add to inventory
     if (itemCount < MAX_ITEMS) { // Making sure inventory is not full
-            printf("\033[H\033[J");
+            printf("\033[H\033[J"); // Clears screen
         printf("Enter item name: ");
         getchar();  // Clear newline left in buffer
         fgets(inventory[itemCount].name, sizeof(inventory[itemCount].name), stdin); // Takes input from user allowing spaces be allowed
 
         printf("Enter item price: ");
-        while (scanf("%f", &inventory[itemCount].price) != 1 || inventory[itemCount].price <= 0) {
+        while (scanf("%f", &inventory[itemCount].price) != 1 || inventory[itemCount].price <= 0) { // Takes input but makes sure it is valid input
             printf("Invalid price! Please enter a positive number: ");
             while (getchar() != '\n'); // Clear buffer
         }
@@ -34,7 +34,7 @@ void addItem() { // Function to create item and add to inventory
         printf("Enter item quantity: ");
         while (scanf("%d", &inventory[itemCount].quantity) != 1 || inventory[itemCount].quantity <= 0) {
             printf("Invalid quantity! Please enter a positive number: ");
-            while (getchar() != '\n'); // Clear buffer
+            while (getchar() != '\n');
         }
 
         itemCount++;
@@ -83,7 +83,7 @@ void processSale() {
         printf("\nEnter item number to purchase (0 to finish): ");
         if (scanf("%d", &itemIndex) != 1 || itemIndex < 0 || itemIndex > itemCount) {
             printf("Invalid input! Please enter a valid item number.\n");
-            while (getchar() != '\n'); // Clear buffer
+            while (getchar() != '\n');
             continue;
         }
 
@@ -110,6 +110,7 @@ void processSale() {
     printf("Transaction Complete!\n");
 }
 
+// Creating a structure of an employee, and defining it with Employee
 typedef struct {
     char name[50];
     int employeeID;
@@ -132,7 +133,7 @@ void addEmployee() {
         printf("\nEnter employee ID: ");
         while (scanf("%d", &employees[employeeCount].employeeID) != 1 || employees[employeeCount].employeeID <= 0) {
             printf("Invalid ID! Please enter a positive number: ");
-            while (getchar() != '\n'); // Clear buffer
+            while (getchar() != '\n');
         }
         employees[employeeCount].employeeID = employees[employeeCount].employeeID;
 
@@ -159,21 +160,21 @@ void calculatePayroll() {
     printf("\n------ Payroll Calculation ------\n");
 
 for (int i = 0; i < employeeCount; i++) {
-        // Get Hours Worked
+
         printf("\nEnter hours worked for %s (ID: %d): ", employees[i].name, employees[i].employeeID);
         while (scanf("%f", &employees[i].hoursWorked) != 1 || employees[i].hoursWorked < 0) {
             printf("Invalid input! Please enter a non-negative number: ");
             while (getchar() != '\n');
         }
 
-        // Get Overtime Hours
+
         printf("Enter overtime hours for %s (ID: %d): ", employees[i].name, employees[i].employeeID);
         while (scanf("%f", &employees[i].overtime) != 1 || employees[i].overtime < 0) {
             printf("Invalid input! Please enter a non-negative number: ");
             while (getchar() != '\n');
         }
 
-        // Calculate Salary
+
         float regularPay = employees[i].hoursWorked * HOURLY_RATE;
         float overtimePay = employees[i].overtime * (HOURLY_RATE * OVERTIME_MULTIPLIER);
         employees[i].salary = regularPay + overtimePay;
