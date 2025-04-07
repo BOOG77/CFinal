@@ -308,7 +308,7 @@ case 5:
     puts("\n");
     break;
 case 6:
-    printf("Saving and exiting...\n");    
+    printf("Saving and exiting...\n");
     puts("\n");
     break;
 default:
@@ -324,7 +324,7 @@ int userExists(const char *username) {//takes in the old username
     if (file == NULL) return 0;//empty file means there will be no duplicate username
 
     while (fscanf(file, "%s %s %s", fileUsername, filePassword, fileRole) != EOF) {//scans the file taking in 3 string from each line username, passord and role does this until the end of file (EOF)
-        if (strcmp(username, fileUsername) == 0) {//with each line comparesthe username with the username in the file 
+        if (strcmp(username, fileUsername) == 0) {//with each line comparesthe username with the username in the file
             fclose(file);
             return 1;//if usernames are the same returns 1
         }
@@ -356,7 +356,7 @@ void registerUser() {
         return;
     }
 
-    FILE *file = fopen(credentials, "a");//appends the credentials file 
+    FILE *file = fopen(credentials, "a");//appends the credentials file
     if (file == NULL) {//if file didn't open properly
         perror("Error opening file");
         return;
@@ -410,7 +410,7 @@ void loginUser(){
 
 int main() {
     loadInventoryFromFile();
-    loadTransactions();
+    //loadTransactions();
     //displayMenu();
     int choice;
 
