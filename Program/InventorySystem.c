@@ -5,8 +5,15 @@
 #define MAX_EMPLOYEES 50 // Maximum number of employees
 #define HOURLY_RATE 20.0  // Base hourly wage
 #define OVERTIME_MULTIPLIER 1.5  // Overtime is 1.5x regular pay
+#define credentials "credentials.txt"
 
-
+void clearScreen(){
+    printf("\033[H\033[J");
+}
+void pause(){
+    printf("Press Enter to continue...\n");
+    getchar();
+}
 // Creating a structure of an item, and defining it with Item
 typedef struct {
     char name[50];
@@ -19,7 +26,7 @@ int itemCount = 0; // Variable to hold amount of items in inventory
 
 void addItem() { // Function to create item and add to inventory
     if (itemCount < MAX_ITEMS) { // Making sure inventory is not full
-            printf("\033[H\033[J"); // Clears screen
+        clearScreen(); // Clears screen
         printf("Enter item name: ");
         getchar();  // Clear newline left in buffer
         fgets(inventory[itemCount].name, sizeof(inventory[itemCount].name), stdin); // Takes input from user allowing spaces be allowed
@@ -38,7 +45,7 @@ void addItem() { // Function to create item and add to inventory
         }
 
         itemCount++;
-        printf("\033[H\033[J");
+        clearScreen();
         printf("Item(s) added successfully!\n");
     } else {
         printf("Inventory full! Cannot add any more items!\n");
@@ -47,11 +54,11 @@ void addItem() { // Function to create item and add to inventory
 
 void displayInventory() {
 if (itemCount == 0) {
-    printf("\033[H\033[J");
+    clearScreen();
     printf("Inventory is empty! Nothing to display!\n");
     return;
     }
-    printf("\033[H\033[J");
+    clearScreen();
     printf("\n------Inventory------\n");
 
     for (int i = 0; i < itemCount; i++) {
@@ -77,7 +84,7 @@ void saveTransaction(float total, int itemIndex, int quantity) {
 
 void processSale() {
     if (itemCount == 0) {
-        printf("\033[H\033[J");
+        clearScreen();
         printf("Inventory is empty! No items available for sale.\n");
         return;
     }
@@ -85,7 +92,7 @@ void processSale() {
     int itemIndex, quantity;
     float total = 0;
 
-    printf("\033[H\033[J");
+    clearScreen();
     printf("\n------Inventory------\n");
     for (int i = 0; i < itemCount; i++) {
         printf("%d. %s - $%.2f (Stock: %d)\n", i + 1, inventory[i].name, inventory[i].price, inventory[i].quantity);
@@ -138,7 +145,7 @@ int employeeCount = 0;
 
 void addEmployee() {
     if(employeeCount < MAX_EMPLOYEES) {
-        printf("\033[H\033[J");
+        clearScreen();
         printf("Enter employee name: ");
         getchar();
         fgets(employees[employeeCount].name, sizeof(employees[employeeCount].name), stdin);
@@ -154,26 +161,25 @@ void addEmployee() {
         employees[employeeCount].salary = 0;
 
         employeeCount++;
-        printf("\033[H\033[J");
+        clearScreen();
         printf("Employee added successfully!\n");
     } else {
-        printf("\033[H\033[J");
+        clearScreen();
         printf("Employee list full!\n");
     }
 }
 
 void calculatePayroll() {
     if (employeeCount == 0) {
-        printf("\033[H\033[J");
+        clearScreen();
         printf("No employees on payroll! Cannot calculate payroll with no employees to pay!\n");
         return;
     }
 
-    printf("\033[H\033[J");
+    clearScreen();
     printf("\n------ Payroll Calculation ------\n");
 
-for (int i = 0; i < employeeCount; i++) {
-
+    for (int i = 0; i < employeeCount; i++) {
         printf("\nEnter hours worked for %s (ID: %d): ", employees[i].name, employees[i].employeeID);
         while (scanf("%f", &employees[i].hoursWorked) != 1 || employees[i].hoursWorked < 0) {
             printf("Invalid input! Please enter a non-negative number: ");
@@ -198,7 +204,6 @@ for (int i = 0; i < employeeCount; i++) {
         printf("  Total Salary: $%.2f\n", employees[i].salary);
         printf("-----------------------------------\n");
     }
-
 }
 
 void saveInventoryToFile() {
@@ -257,6 +262,7 @@ void loadTransactions() {
 int input;
 
 void displayMenu() {
+    clearScreen();
     do {
     puts("\n");
     printf("--------Main Menu--------\n");
@@ -270,7 +276,7 @@ void displayMenu() {
     puts("\n");
     printf("Enter your choice: \n");
         if (scanf("%d", &input) != 1) {
-            printf("\033[H\033[J");
+            clearScreen();
             printf("\nInvalid input! Please enter a number between 1 and 6.\n");
             while (getchar() != '\n');  // Clear input buffer
             continue;  // Restart loop
@@ -300,7 +306,7 @@ case 5:
     puts("\n");
     break;
 case 6:
-    printf("Saving and exiting...\n");
+    printf("Saving and exiting...\n");    
     puts("\n");
     break;
 default:
@@ -310,11 +316,124 @@ default:
 } while (input !=6);
 };
 
+int userExists(const char *username) {//takes in the old username
+    char fileUsername[50], filePassword[50], fileRole[50];//empty strings to hold data from file
+    FILE *file = fopen(credentials, "r");//reads the file
+    if (file == NULL) return 0;//empty file means there will be no duplicate username
+
+    while (fscanf(file, "%s %s %s", fileUsername, filePassword, fileRole) != EOF) {//scans the file taking in 3 string from each line username, passord and role does this until the end of file (EOF)
+        if (strcmp(username, fileUsername) == 0) {//with each line comparesthe username with the username in the file 
+            fclose(file);
+            return 1;//if usernames are the same returns 1
+        }
+    }
+
+    fclose(file);
+    return 0;//returns 0 if the username did not match
+}
+
+void registerUser() {
+    char username[50], password[50], role[50];
+
+    printf("Register a new user\n");
+    printf("Enter username: ");
+    scanf("%s", username);//takes in user's username
+
+    if (userExists(username)) {//checks the file if username is already there returns 0 if false and 1 if true
+        printf("Username already exists!\n");
+        return;
+    }
+
+    printf("Enter password: ");
+    scanf("%s", password);//takes in user's password
+
+    printf("Enter role (employee or customer): ");
+    scanf("%s", role);//takes in the user's role in order to display the different menus
+    if (strcmp(role, "employee") != 0 || strcmp(role, "customer") !=0){//if the role is not equal to employee or customer returns with error
+        printf("Invalid role");
+        return;
+    }
+
+    FILE *file = fopen(credentials, "a");//appends the credentials file 
+    if (file == NULL) {//if file didn't open properly
+        perror("Error opening file");
+        return;
+    }
+
+    fprintf(file, "%s %s %s\n", username, password, role);//appends the username password and role as a single line like this [username password role] to the file
+    fclose(file);
+
+    printf("User registered successfully!\n");
+}
+
+void loginUser(){
+    char username[50], password[50], fileUsername[50], filePassword[50], fileRole[50];
+
+    printf("Enter username: ");
+    scanf("%s",&username);
+    printf("Enter password: ");
+    scanf("%s", &password);
+
+    int found = 0;
+    FILE *file = fopen(credentials,"r");
+    if (file == NULL) {
+        printf("No registered users yet.\n");
+        return;
+    }
+
+    while (fscanf(file, "%s %s %s", fileUsername, filePassword, fileRole) != EOF ){//scans each line of the file taking in 3 strings assigning them to fileUsername filePassword and fileRole
+        if(strcmp(username, fileUsername)==0 && strcmp(password, filePassword)==0){
+            found = 1;
+            break;
+        }
+    }
+
+    if(found){
+        printf("Login successful\n");
+        if(strcmp(fileRole, "customer")==0){
+            //customerMenu();
+            printf("display customer menu\n");
+            displayMenu();
+        } else if (strcmp(fileRole, "employee")==0){
+            //employeeMenu();
+            printf("display employee menu\n");
+            displayMenu();
+        } else {
+            printf("Error with role, -- returning to main menu");
+            return;
+        }
+    }
+}
+
 
 int main() {
     loadInventoryFromFile();
-    //loadTransactions();
-    displayMenu();
+    loadTransactions();
+    //displayMenu();
+    int choice;
+
+    while (1) {
+        printf("\n--- Main Menu ---\n");
+        printf("1. Register\n");
+        printf("2. Login\n");
+        printf("3. Exit\n");
+        printf("Choose an option: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                registerUser();
+                break;
+            case 2:
+                loginUser();
+                break;
+            case 3:
+                printf("Goodbye!\n");
+                break;
+            default:
+                printf("Invalid option. Try again.\n");
+        }
+    }
     saveInventoryToFile();
 
 return 0;
