@@ -274,7 +274,8 @@ void displayCustomerMenu() {
     puts("\n");
     printf("1. Display Inventory\n");
     printf("2. Process Sale\n");
-    printf("3. Exit\n");
+    printf("3. View transaction history\n");
+    printf("4. Exit\n");
     puts("\n");
     printf("Enter your choice: \n");
         if (scanf("%d", &input) != 1) {
@@ -296,6 +297,11 @@ case 2:
     puts("\n");
     break;
 case 3:
+    printf("Loading transaction history...\n");
+    puts("\n");
+    loadTransactions();
+    break;
+case 4:
     printf("Saving and exiting...\n");
     puts("\n");
     break;
@@ -303,7 +309,7 @@ default:
     printf("Invalid input. Please try again\n");
     puts("\n");
     }
-} while (input !=3);
+} while (input !=4);
 };
 
 
@@ -478,9 +484,7 @@ void loginUser(){
 
 int main() {
     loadInventoryFromFile();
-    //loadTransactions();
     mainMenu();
-    //displayMenu();
 
     saveInventoryToFile();
 
