@@ -7,6 +7,14 @@
 #define OVERTIME_MULTIPLIER 1.5  // Overtime is 1.5x regular pay
 #define credentials "credentials.txt"
 
+
+/*
+* Group: DJJJ
+* Authors: Dawson Brown, Josh Leslie, Judah Csanyi, Jeremy Paruch
+* Final Project
+* LMD: April 8, 2025
+*/
+
 int choice;
 
 
@@ -156,6 +164,8 @@ void processSale() {
 
         total += inventory[itemIndex - 1].price * quantity;
         inventory[itemIndex - 1].quantity -= quantity;
+        inventory[itemIndex - 1].quantity -= quantity;
+        saveInventoryToFile();  // Save inventory changes after sale
 
         saveTransaction(total, itemIndex - 1, quantity);
     }
@@ -289,23 +299,28 @@ void displayCustomerMenu() {
 
     switch (input) {
 case 1:
+    clearScreen();
     displayInventory();
     puts("\n");
     break;
 case 2:
+    clearScreen();
     processSale();
     puts("\n");
     break;
 case 3:
+    clearScreen();
     printf("Loading transaction history...\n");
     puts("\n");
     loadTransactions();
     break;
 case 4:
+    clearScreen();
     printf("Saving and exiting...\n");
     puts("\n");
     break;
 default:
+    clearScreen();
     printf("Invalid input. Please try again\n");
     puts("\n");
     }
@@ -387,11 +402,13 @@ int userExists(const char *username) {//takes in the old username
 void registerUser() {
     char username[50], password[50], role[50];
 
+    clearScreen();
     printf("Register a new user\n");
     printf("Enter username: ");
     scanf("%s", username);//takes in user's username
 
     if (userExists(username)) {//checks the file if username is already there returns 0 if false and 1 if true
+        clearScreen();
         printf("Username already exists!\n");
         return;
     }
@@ -420,7 +437,7 @@ void registerUser() {
 
 void loginUser(){
     char username[50], password[50], fileUsername[50], filePassword[50], fileRole[50];
-
+    clearScreen();
     printf("Enter username: ");
     scanf("%s",&username);
     printf("Enter password: ");
@@ -468,15 +485,19 @@ void loginUser(){
 
         switch (choice) {
             case 1:
+                clearScreen();
                 registerUser();
                 break;
             case 2:
+                clearScreen();
                 loginUser();
                 break;
             case 3:
-                printf("Goodbye!\n");
+                clearScreen();
+                printf("Have a great day, thanks for using our program!\n");
                 break;
             default:
+                clearScreen();
                 printf("Invalid option. Try again.\n");
         }
     } while (choice !=3);
@@ -485,7 +506,6 @@ void loginUser(){
 int main() {
     loadInventoryFromFile();
     mainMenu();
-
     saveInventoryToFile();
 
 return 0;
