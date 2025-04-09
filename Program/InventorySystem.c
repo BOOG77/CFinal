@@ -35,6 +35,23 @@ typedef struct {
 Item inventory[MAX_ITEMS]; // Creating array to hold items
 int itemCount = 0; // Variable to hold amount of items in inventory
 
+void saveInventoryToFile() {
+    FILE *file = fopen("inventory.txt", "w");  // Open file in write mode
+
+    if (file == NULL) {
+        printf("Error opening file for inventory save!\n");
+        return;
+    }
+
+    for (int i = 0; i < itemCount; i++) {
+        fprintf(file, "%s|%.2f|%d\n", inventory[i].name, inventory[i].price, inventory[i].quantity);
+    }
+
+    fclose(file);  // Close the file
+    printf("Inventory saved successfully!\n");
+}
+
+
 void addItem() { // Function to create item and add to inventory
     if (itemCount < MAX_ITEMS) { // Making sure inventory is not full
         clearScreen(); // Clears screen
@@ -61,22 +78,7 @@ void addItem() { // Function to create item and add to inventory
     } else {
         printf("Inventory full! Cannot add any more items!\n");
     }
-}
-
-void saveInventoryToFile() {
-    FILE *file = fopen("inventory.txt", "w");  // Open file in write mode
-
-    if (file == NULL) {
-        printf("Error opening file for inventory save!\n");
-        return;
-    }
-
-    for (int i = 0; i < itemCount; i++) {
-        fprintf(file, "%s|%.2f|%d\n", inventory[i].name, inventory[i].price, inventory[i].quantity);
-    }
-
-    fclose(file);  // Close the file
-    printf("Inventory saved successfully!\n");
+    saveInventoryToFile(); // Save inventory after item is added
 }
 
 
@@ -315,9 +317,9 @@ case 3:
     loadTransactions();
     break;
 case 4:
-    clearScreen();
     printf("Saving and exiting...\n");
     puts("\n");
+    clearScreen();
     break;
 default:
     clearScreen();
@@ -375,6 +377,7 @@ case 5:
 case 6:
     printf("Saving and exiting...\n");
     puts("\n");
+    clearScreen();
     break;
 default:
     printf("Invalid input. Please try again\n");
@@ -504,7 +507,6 @@ void loginUser(){
 }
 
 int main() {
-    loadInventoryFromFile();
     mainMenu();
     saveInventoryToFile();
 
