@@ -15,7 +15,7 @@
 #define MAX_EMPLOYEES 50 // Maximum number of employees
 #define HOURLY_RATE 20.0  // Base hourly wage
 #define OVERTIME_MULTIPLIER 1.5  // Overtime is 1.5x regular pay
-#define credentials "credentials.txt"
+#define credentials "../Database/credentials.txt"
 
 int choice;
 
@@ -38,7 +38,7 @@ Item inventory[MAX_ITEMS]; // Creating array to hold items
 int itemCount = 0; // Variable to hold amount of items in inventory
 
 void saveInventoryToFile() {
-    FILE *file = fopen("inventory.txt", "w");  // Open file in write mode
+    FILE *file = fopen("../Database/inventory.txt", "w");  // Open file in write mode
 
     if (file == NULL) {
         printf("Error opening file for inventory save!\n");
@@ -85,7 +85,7 @@ void addItem() { // Function to create item and add to inventory
 
 
 void loadInventoryFromFile() {
-    FILE *file = fopen("inventory.txt", "r");  // Open file in read mode
+    FILE *file = fopen("../Database/inventory.txt", "r");  // Open file in read mode
 
     if (file == NULL) {
         printf("No inventory file found! Starting fresh.\n");
@@ -122,7 +122,7 @@ if (itemCount == 0) {
 }
 
 void saveTransaction(float total, int itemIndex, int quantity) {
-    FILE *file = fopen("transactions.txt", "a");
+    FILE *file = fopen("../Database/transactions.txt", "a");
 
     if (file == NULL) {
         printf("Error opening transactions file!\n");
@@ -261,7 +261,7 @@ void calculatePayroll() {
 
 
 void loadTransactions() {
-    FILE *file = fopen("transactions.txt", "r");  // Open file in read mode
+    FILE *file = fopen("../Database/transactions.txt", "r");  // Open file in read mode
 
     if (file == NULL) {
         printf("No transaction records found!\n");
