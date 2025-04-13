@@ -1,3 +1,13 @@
+/*
+    Smart Business Management
+
+    Course: PROG-2007 Programming in C
+    Author's: Dawson, Jeremy, Judah, Josh (DJJJ)
+    Date: 13/04/2025
+    Instructor: Nadia Gouda
+*/
+
+
 #include <stdio.h>
 #include <string.h>
 
@@ -6,14 +16,6 @@
 #define HOURLY_RATE 20.0  // Base hourly wage
 #define OVERTIME_MULTIPLIER 1.5  // Overtime is 1.5x regular pay
 #define credentials "credentials.txt"
-
-
-/*
-* Group: DJJJ
-* Authors: Dawson Brown, Josh Leslie, Judah Csanyi, Jeremy Paruch
-* Final Project
-* LMD: April 8, 2025
-*/
 
 int choice;
 
