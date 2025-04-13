@@ -434,7 +434,7 @@ void registerUser() {
 
     fprintf(file, "%s %s %s\n", username, password, role);//appends the username password and role as a single line like this [username password role] to the file
     fclose(file);
-
+    clearScreen();
     printf("User registered successfully!\n");
 }
 
