@@ -497,6 +497,7 @@ void loginUser(){
                 break;
             case 3:
                 clearScreen();
+                saveInventoryToFile();
                 printf("Have a great day, thanks for using our program!\n");
                 break;
             default:
@@ -508,7 +509,6 @@ void loginUser(){
 
 int main() {
     mainMenu();
-    saveInventoryToFile();
 
 return 0;
 }
