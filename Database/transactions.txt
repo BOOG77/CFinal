@@ -1,10 +1,2 @@
-Item: Blue Jeans
- | Quantity: 2 | Total Cost: $39.98
-Item: Green Shirt
- | Quantity: 2 | Total Cost: $61.96
-Item: Blue Jeans
- | Quantity: 2 | Total Cost: $39.98
-Item: Blue Jeans
- | Quantity: 2 | Total Cost: $39.98
-Item: Blue Jeans
- | Quantity: 2 | Total Cost: $39.98
+Item: Purple Hat
+ | Quantity: 5 | Total Cost: $44.95
