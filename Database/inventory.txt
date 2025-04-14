@@ -1,9 +1,9 @@
-Red Shirt
-|12.99|50
-Blue Jeans
+Blue Sweater
+|24.99|60
+e Jeans
 |19.99|50
 Green Sweater
 |24.99|50
 Purple Hat
-|8.99|20
+|8.99|15
 

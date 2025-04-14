@@ -19,7 +19,6 @@
 
 int choice;
 
-
 void clearScreen(){
     printf("\033[H\033[J");
 }
@@ -29,8 +28,8 @@ void pause(){
     while (getchar() != '\n'); // Clear any leftover characters
     getchar();
 }
-// Creating a structure of an item, and defining it with Item
-typedef struct {
+
+typedef struct { // Creating a structure of an item, and defining it with Item
     char name[50];
     float price;
     int quantity;

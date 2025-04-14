@@ -1,2 +1,4 @@
 Item: Purple Hat
  | Quantity: 5 | Total Cost: $44.95
+Item: Purple Hat
+ | Quantity: 5 | Total Cost: $44.95
