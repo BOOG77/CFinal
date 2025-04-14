@@ -58,7 +58,7 @@ void loadInventoryFromFile() {
 }
 
 void saveInventoryToFile() {
-    FILE *file = fopen("../Database/inventory.txt", "r+");  // Open file in write mode
+    FILE *file = fopen("../Database/inventory.txt", "a");  // Open file in append mode
 
     if (file == NULL) {
         printf("Error opening file for inventory save!\n");
