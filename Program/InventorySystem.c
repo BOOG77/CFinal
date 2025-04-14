@@ -25,6 +25,8 @@ void clearScreen(){
 }
 void pause(){
     printf("Press Enter to continue...\n");
+    fflush(stdout); // Ensure the prompt is displayed
+    while (getchar() != '\n'); // Clear any leftover characters
     getchar();
 }
 // Creating a structure of an item, and defining it with Item
@@ -37,8 +39,27 @@ typedef struct {
 Item inventory[MAX_ITEMS]; // Creating array to hold items
 int itemCount = 0; // Variable to hold amount of items in inventory
 
+
+void loadInventoryFromFile() {
+    FILE *file = fopen("../Database/inventory.txt", "r");  // Open file in read mode
+
+    if (file == NULL) {
+        printf("No inventory file found! Starting fresh.\n");
+        return;
+    }
+
+    itemCount = 0;
+    while (fscanf(file, "%49[^|]|%f|%d\n", inventory[itemCount].name,
+                  &inventory[itemCount].price, &inventory[itemCount].quantity) == 3) {
+        itemCount++;
+    }
+
+    fclose(file);
+    printf("Inventory loaded successfully!\n");
+}
+
 void saveInventoryToFile() {
-    FILE *file = fopen("../Database/inventory.txt", "w");  // Open file in write mode
+    FILE *file = fopen("../Database/inventory.txt", "r+");  // Open file in write mode
 
     if (file == NULL) {
         printf("Error opening file for inventory save!\n");
@@ -77,30 +98,14 @@ void addItem() { // Function to create item and add to inventory
         itemCount++;
         clearScreen();
         printf("Item(s) added successfully!\n");
+        pause();
+        clearScreen();
     } else {
         printf("Inventory full! Cannot add any more items!\n");
     }
     saveInventoryToFile(); // Save inventory after item is added
 }
 
-
-void loadInventoryFromFile() {
-    FILE *file = fopen("../Database/inventory.txt", "r");  // Open file in read mode
-
-    if (file == NULL) {
-        printf("No inventory file found! Starting fresh.\n");
-        return;
-    }
-
-    itemCount = 0;
-    while (fscanf(file, "%49[^|]|%f|%d\n", inventory[itemCount].name,
-                  &inventory[itemCount].price, &inventory[itemCount].quantity) == 3) {
-        itemCount++;
-    }
-
-    fclose(file);
-    printf("Inventory loaded successfully!\n");
-}
 
 void displayInventory() {
     loadInventoryFromFile();
@@ -119,6 +124,8 @@ if (itemCount == 0) {
         printf("  Quantity: %d\n", inventory[i].quantity);
         printf("--------------------\n");
     }
+    pause();
+    clearScreen();
 }
 
 void saveTransaction(float total, int itemIndex, int quantity) {
@@ -168,7 +175,6 @@ void processSale() {
 
         total += inventory[itemIndex - 1].price * quantity;
         inventory[itemIndex - 1].quantity -= quantity;
-        inventory[itemIndex - 1].quantity -= quantity;
         saveInventoryToFile();  // Save inventory changes after sale
 
         saveTransaction(total, itemIndex - 1, quantity);
@@ -182,6 +188,8 @@ void processSale() {
 
     printf("\nTotal Cost: $%.2f\n", total);
     printf("Transaction Complete!\n");
+    pause();
+    clearScreen();
 }
 
 // Creating a structure of an employee, and defining it with Employee
@@ -213,12 +221,21 @@ void addEmployee() {
 
         employees[employeeCount].salary = 0;
 
-        employeeCount++;
+
         clearScreen();
         printf("Employee added successfully!\n");
+        printf("Name: %s\n", employees[employeeCount].name);
+        printf("ID: %d\n", employees[employeeCount].employeeID);
+        printf("--------------------------------\n");
+
+        employeeCount++;
+        pause();
+        clearScreen();
     } else {
         clearScreen();
         printf("Employee list full!\n");
+        pause();
+        clearScreen();
     }
 }
 
@@ -256,6 +273,8 @@ void calculatePayroll() {
         printf("  Regular Pay: $%.2f | Overtime Pay: $%.2f\n", regularPay, overtimePay);
         printf("  Total Salary: $%.2f\n", employees[i].salary);
         printf("-----------------------------------\n");
+        pause();
+        clearScreen();
     }
 }
 
@@ -317,6 +336,8 @@ case 3:
     printf("Loading transaction history...\n");
     puts("\n");
     loadTransactions();
+    pause();
+    clearScreen();
     break;
 case 4:
     printf("Saving and exiting...\n");
