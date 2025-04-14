@@ -336,6 +336,8 @@ case 3:
     printf("Loading transaction history...\n");
     puts("\n");
     loadTransactions();
+    pause();
+    clearScreen();
     break;
 case 4:
     printf("Saving and exiting...\n");
